@@ -1,6 +1,9 @@
 package set
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Set map[interface{}]struct{}
 
@@ -25,4 +28,20 @@ func (s Set) Print() {
     for item := range s {
         fmt.Println(item)
     }
+}
+
+func (s Set) GetByIndex(index int) (interface{}, error) {
+    if index < 0 || index >= len(s) {
+        return nil, errors.New("index out of range")
+    }
+
+    var count int
+    for item := range s {
+        if count == index {
+            return item, nil
+        }
+        count++
+    }
+
+    return nil, errors.New("index out of range")
 }
